@@ -1,5 +1,6 @@
 #include <iostream>
 #include <queue>
+using namespace std;
 
 class Node{
     public:
@@ -13,7 +14,6 @@ class Node{
     }
 };
 
-using namespace std;
 int main(){
     int x;
     cin >> x;
