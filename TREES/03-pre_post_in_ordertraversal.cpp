@@ -125,3 +125,57 @@ int main(){
 
 // TC -> O(N)
 // SC -> O(h) & O(N) in worst case
+
+//INORDER MORRIS TRAVERSAL
+vector<int> inOrder(Node* root) {
+    vector<int> ans;
+    while(root){
+        if(!root->left){
+            ans.push_back(root->data);
+            root = root->right;
+        }
+        else{
+            Node* curr = root->left;
+            while(curr->right && curr->right != root){
+                curr = curr->right;
+            }
+            if(curr->right == NULL){
+                curr->right = root;
+                root = root->left;
+            } else{
+                curr->right = NULL;
+                ans.push_back(root->data);
+                root = root->right;
+            }
+        }
+    }
+    return ans;
+}
+
+//PREORDER MORRIS TRAVERSAL
+vector<int> preOrder(Node* root) {
+    vector<int> ans;
+    while(root){
+        if(!root->left){
+            ans.push_back(root->data);
+            root = root->right;
+        } else{
+            Node* curr = root->left;
+            while(curr->right && curr->right != root){
+                curr = curr->right;
+            }
+            if(curr->right == NULL){
+                ans.push_back(root->data);
+                curr->right = root;
+                root = root->left;
+            } else{
+                curr->right = NULL;
+                root = root->right;
+            }
+        }
+    }
+    return ans;
+}
+
+//POSTORDER MORRIS TRAVERSAL
+//LRN -> revrse (NRL)

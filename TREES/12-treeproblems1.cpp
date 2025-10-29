@@ -1,6 +1,7 @@
 #include <iostream>
 #include <queue>
 #include <stack>
+#include <algorithm>
 using namespace std;
 
 class Node{
@@ -25,6 +26,20 @@ bool identicalTreesOrNot(Node* root1, Node* root2){
     identicalTreesOrNot(root1->right, root2->right));
 }
 
+//subtree of another tree
+bool isIdentical(Node* root, Node* subroot){
+    if(root == NULL || subroot == NULL) return root == subroot;
+    return (root->data == subroot->data && isIdentical(root->left, subroot->left) 
+    && isIdentical(root->right, subroot->right));
+}
+bool isSubtree(Node* root, Node* subroot){
+    if(root == NULL || subroot == NULL) return root == subroot;
+    if(root->data == subroot->data && isIdentical(root, subroot)){
+        return true;
+    }
+    return (isSubtree(root->left, subroot) || isSubtree(root->right, subroot));
+}
+
 //given a BT, convert it to its mirror image form
 void mirrorOfBT(Node* root){
     if(root == NULL) return;
@@ -36,7 +51,7 @@ void mirrorOfBT(Node* root){
 }
 
 //check for balance tree
-//condition for balance tree -1 <= height(left subtree)-height(right subtree) <= 1-
+//condition for balance tree (-1 <= height(left subtree)-height(right subtree) <= 1)
 int heightOfBT(Node* root, bool valid){
     if(root == NULL) return 0;
     int l = heightOfBT(root->left, valid);
@@ -63,35 +78,6 @@ int checkHeight(Node* root){
 }
 bool isBalancedTree(Node* root){
     return checkHeight(root) != -1;
-}
-
-//level order traversal in spiral form
-vector<int> levelOrder(Node* root){
-    stack <Node*> s1; //right to left
-    stack <Node*> s2; //left to right
-    s1.push(root);
-    vector<int> ans;
-    while(!s1.empty() || !s2.empty()){
-        if(!s1.empty()){
-            while(!s1.empty()){
-                Node* temp = s1.top();
-                s1.pop();
-                ans.push_back(temp->data);
-                if(temp->right) s2.push(temp->right);
-                if(temp->left) s2.push(temp->left);
-            }
-        }
-        else{
-            while(!s2.empty()){
-                Node* temp = s2.top();
-                s2.pop();
-                ans.push_back(temp->data);
-                if(temp->left) s1.push(temp->left);
-                if(temp->right) s1.push(temp->right);
-            }
-        }
-    }
-    return ans;
 }
 
 //check if 2 nodes are cousins
@@ -123,3 +109,5 @@ bool isCousins(Node* root, int x, int y){
     }
     return false;
 }
+
+// maximum path sum

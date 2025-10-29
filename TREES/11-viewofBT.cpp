@@ -1,6 +1,7 @@
 #include <iostream>
 #include <queue>
 #include <stack>
+#include <map>
 using namespace std;
 
 class Node{
@@ -120,3 +121,25 @@ vector<int> topView2(Node* root){
     return ans;
 }
 
+// using hashmap
+vector<int> topView3(Node* root){
+    vector<int> ans;
+    if(root == NULL) return ans;
+    queue<pair<Node*, int>> que;
+    map<int, int> mp;
+    que.push({root, 0});
+    while(!que.empty()){
+        auto temp = que.front();
+        Node* node = temp.first;
+        int pos = temp.second;
+        if(mp.find(pos) == mp.end()){
+            mp[pos] = node->data;
+        }
+        if(node->left) que.push({node->left, pos-1});
+        if(node->right) que.push({node->right, pos+1});
+    }
+    for(auto it: mp){
+        ans.push_back(it.second);
+    }
+    return ans;
+}

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <queue>
 #include <stack>
+#include <algorithm>
 using namespace std;
 
 class Node{
@@ -15,8 +16,4 @@ class Node{
     }
 };
 
-int heightofBT(Node* root){
-    if(root == NULL) return 0;
-    int height = 1 + max(heightofBT(root->left), heightofBT(root->right));
-    return height;
-}
+
